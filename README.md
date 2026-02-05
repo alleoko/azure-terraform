@@ -1,4 +1,4 @@
-#Azure Terraform
+# Azure Terraform
 
 Azure Terraform is a starter project to provision resources on Microsoft Azure using Terraform. It demonstrates infrastructure as code for deploying Linux VMs, running initialization scripts via customdata.tpl, and automatically installing Docker.
 
