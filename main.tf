@@ -137,3 +137,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     environment = "dev"
   }
 }
+  data "azurerm_public_ip" "public_ip_data" {
+    name                = azurerm_public_ip.public_ip.name
+    resource_group_name = azurerm_resource_group.rg.name
+  }
