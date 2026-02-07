@@ -109,7 +109,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     public_key = file("~/.ssh/id_tf_azure_rsakey.pub")
   }
   /*  to ssh instance =   */
-  /* ssh -i ~/.ssh/id_tf_azure_rsakey adminuser@[ ip address]  4.194.60.156 */
+  /* ssh -i ~/.ssh/id_tf_azure_rsakey adminuser@4.193.200.239 */
 
   os_disk {
     caching              = "ReadWrite"
@@ -118,10 +118,21 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts-gen2"
     version   = "latest"
   }
+
+  provisioner "local-exec" {
+      command = templatefile("linux-ssh-script.tpl", {
+          hostname = self.public_ip_address,
+          user = "adminuser",
+          IdentityFile = "~/.ssh/id_tf_azure_rsakey"
+      })
+      interpreter = ["bash", "-c"]
+
+  }
+
   tags = {
     environment = "dev"
   }
