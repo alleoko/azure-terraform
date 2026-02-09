@@ -124,7 +124,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   provisioner "local-exec" {
-      command = templatefile("linux-ssh-script.tpl", {
+      command = templatefile("${var.host.os}-ssh-script.tpl", {
           hostname = self.public_ip_address,
           user = "adminuser",
           IdentityFile = "~/.ssh/id_tf_azure_rsakey"
