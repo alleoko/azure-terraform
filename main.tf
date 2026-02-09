@@ -118,7 +118,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-focal"
+    offer     = "Ubuntu-server"
     sku       = "20_04-lts-gen2"
     version   = "latest"
   }
@@ -137,7 +137,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
     environment = "dev"
   }
 }
-  data "azurerm_public_ip" "public_ip_data" {
+  data "azurerm_public_ip" "myTF_ip_data" {
     name                = azurerm_public_ip.public_ip.name
     resource_group_name = azurerm_resource_group.rg.name
   }
+output "public_ip_address" {
+  value = "${azurerm_linux_virtual_machine.vm.public_ip_address}: ${data.azurerm_public_ip.myTF_ip_data.ip_address}"
+}
