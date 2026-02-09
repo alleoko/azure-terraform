@@ -129,8 +129,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
           user = "adminuser",
           IdentityFile = "~/.ssh/id_tf_azure_rsakey"
       })
-      interpreter = ["bash", "-c"]
-
+#      interpreter = ["bash", "-c"] 
+       interpreter = var.host_os == "linux" ? [ "bash", "-c"  ] : [ "Powershell", "-Command" ] 
   }
 
   tags = {
@@ -142,5 +142,5 @@ resource "azurerm_linux_virtual_machine" "vm" {
     resource_group_name = azurerm_resource_group.rg.name
   }
 output "public_ip_address" {
-  value = "${azurerm_linux_virtual_machine.vm.public_ip_address}: ${data.azurerm_public_ip.myTF_ip_data.ip_address}"
+  value = "${azurerm_linux_virtual_machine.vm.name}: ${data.azurerm_public_ip.myTF_ip_data.ip_address}"
 }
